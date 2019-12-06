@@ -8,6 +8,15 @@ function loadFile() {
     }
 }
 
+function parseFile() {
+    var data = d3.csvParse(reader.result, function (d) {
+        return d;
+    });
+    var model = document.getElementById("model").value;
+    displayFile(data);
+    downloadButton(data, model);
+}
+
 function displayFile(data) {
     var columns = Object.keys(data[0]);
     $.each(columns, function (i, column) {
@@ -53,16 +62,13 @@ function downloadButton(data, name) {
     document.getElementById("code_directions").style.visibility = "visible";
 }
 
-function parseFile() {
-    var data = d3.csvParse(reader.result, function (d) {
-        return d;
-    });
-    var model = document.getElementById("model").value;
-    displayFile(data);
-    downloadButton(data, model);
-}
-
 $("#parse-btn").click(function () {
+    $("#header").empty();
+    $("#csv-content").empty();
+    $("#table-caption").empty();
+    $("#filename").empty();
+    $("#content").empty();
+    document.getElementById("code_directions").style.visibility = "hidden";
     var model = document.getElementById("model").value;
     loadFile();
     $("#table-caption").append(model + " preview (head)");
